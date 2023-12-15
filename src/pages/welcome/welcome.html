@@ -1,0 +1,62 @@
+<!--
+  Created by: thuc@hearme.vn
+  Organization: LabsOfThings.com
+  Project: hearme.vn
+  Date: 16 Oct 2018
+-->
+<div class="{{appInit.screen_orientation}}">
+	<ion-navbar class="main-header {{appInit.screen_orientation}}" hideBackButton="true">
+		<ng-template [ngIf]="appInit?.configs?.DEVICE_HEADER_IMG?.value">
+			<img class="title-banner" src="{{appConf?.img_server + appInit?.configs?.DEVICE_HEADER_IMG?.value}}"/>
+		</ng-template>
+		<ng-template [ngIf]="!appInit?.configs?.DEVICE_HEADER_IMG?.value">
+			<img *ngIf="appInit?.organization?.logo" class="img-logo" src="{{appInit?.organization?.logo}}"/>
+			<span *ngIf="!appInit?.organization?.logo" > {{appInit?.organization?.name}} </span>
+		</ng-template>
+	</ion-navbar>
+</div>
+
+<ion-content padding class="{{appInit.screen_orientation}}">
+	<div class="wrapper">
+    <ion-row>  
+        <ion-col class="question">		
+            <em *ngIf="appInit.customer && appInit.customer.name"> 
+				{{ 'WELCOME_dear' | translate}} 
+				{{ appInit.customer.name }}!
+			</em>
+            <em *ngIf="!appInit.customer || !appInit.customer.name"> 
+				{{ 'WELCOME_dear' | translate}} 
+				{{ 'WELCOME_customer' | translate}}!
+			</em>
+			
+        </ion-col>
+    </ion-row>
+    <ion-row class="explaination">
+        <ion-col col-1></ion-col>
+        <ion-col col-10 *ngIf="!welcome_Words">
+            <p *ngIf="invitation && invitation.status!=0"> 
+				{{ 'WELCOME_invitation_expired' | translate}} 
+			</p>
+            <p *ngIf="invitation && invitation.status==0"> 
+				{{ 'THANKGIVING_explaination' | translate}} 
+			</p>
+            <p *ngIf="!invitation"> 
+				{{ 'MESSAGE_Welcome' | translate}} 
+			</p>
+            <p class="author">___{{ "author_team" | translate }}___</p>
+        </ion-col>
+		
+        <ion-col col-10 *ngIf="welcome_Words">
+            <p [innerHTML]="welcome_Words.content"></p>
+            <p class="author">___{{ welcome_Words.author }}___</p>
+        </ion-col>
+		
+        <ion-col col-1></ion-col>
+    </ion-row>
+	</div>
+</ion-content>
+
+<!-- For Welcome page-->	
+<ion-footer
+    [controller]=this [pageName]="'WelcomePage'">
+</ion-footer>
